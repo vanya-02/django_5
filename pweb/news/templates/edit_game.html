@@ -3,16 +3,18 @@
 
 {% block content %}
 
-<div class='post block'>
-    <h2 class='subtitle'>{{ post.title }} </h2>
+<div class='game block'>
 
-    <p>{{ post.body }}</p>
-    <small>Posted at {{ post.date_added }}</small>
+    <h2 class='subtitle'>{{ game.title }} </h2>
+
+    <p>{{ game.body }}</p>
+    <small>Posted at {{ game.date_added }}</small>
 </div>
 
 <form method="post" action="{% url 'home' %}">
     {% csrf_token %}
-    <input type="hidden" name="id" value="{{ post.id }}">
+    <input type="hidden" name="id" value="{{ game.id }}">
+    <input type="hidden" name="type" value="game">
 
     <input type="text" name="edit_value" >
     <button type="submit" class="btn btn-default">Update</button>

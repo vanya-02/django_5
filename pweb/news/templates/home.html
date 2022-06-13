@@ -4,18 +4,34 @@
 
 {% block content %}
 
-
-    {% for post in posts %}
+    <h2 style="font-size: 26px"> Games </h2>
+    <hr/>
+    {% for game in games %}
         <div class='post block'>
-            <h2 class='subtitle'>{{ post.title }}  
-                {% if user.is_editor %} 
-                <a href="post/{{ post.get_id }}" <i>[edit]</i></a>
+            <h3 style="font-size: 22px">{{ game.title }}  
+                {% if user.is_publisher %} 
+                <a href="game/{{ game.get_id }}" <i>[edit]</i></a>
             
-                {% endif %} </h2>
-            <p>{{ post.body }}</p>
-            <small>Posted at {{ post.date_added }}</small>
+                {% endif %} </h3>
+            <p>{{ game.body }}</p>
+            <small>Posted at {{ game.date_added }}</small>
         </div>
     {% endfor %}
+
+    
+    <h2 style="font-size: 26px"> Apps </h2>
+    <hr/>
+    {% for app in apps %}
+    <div class='post block'>
+        <h3 style="font-size: 22px">{{ app.title }}  
+            {% if user.is_publisher %} 
+            <a href="app/{{ app.get_id }}" <i>[edit]</i></a>
+        
+            {% endif %} </h3>
+        <p>{{ app.body }}</p>
+        <small>Posted at {{ app.date_added }}</small>
+    </div>
+{% endfor %}
         
 
 {% endblock %}

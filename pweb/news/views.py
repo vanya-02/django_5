@@ -1,44 +1,44 @@
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from .models import Post, SiteUser
+from .models import Game, App, SiteUser
 
 def test(request):
-    post = Post.objects.all()
-
-    return render(request, 'home.html', {'posts': post})
+    game = Game.objects.all()
+    return render(request, 'home.html', {'games': game})
 
 
 def home(request):
-    #TODO check if authentificated and type of user
-    if request.method == "POST":
-        print(request.POST['edit_value'])
-        print(request.POST.get('id'))
+    if request.method == "POST" and request.POST['type'] == 'game':
+        game = Game.objects.get(id=request.POST.get('id'))
+        game.title = request.POST['edit_value']
+        game.save()
 
-        post = Post.objects.get(id=request.POST.get('id'))
-        post.title = request.POST['edit_value']
-        post.save()
+    if request.method == "POST" and request.POST['type'] == 'app':
+        app = App.objects.get(id=request.POST.get('id'))
+        app.title = request.POST['edit_value']
+        app.save()
 
 
     if request.user.is_authenticated:
-        if request.user.is_editor or request.user.is_subscriber:
+        if request.user.is_publisher or request.user.is_user:
             user = SiteUser.objects.get(id=request.user.id)
-            post = Post.objects.all()
+            return render(request, 'home.html', {'games': Game.objects.all(), 'apps': App.objects.all()})
 
-            print(user, '***')
-            return render(request, 'home.html', {'posts': post})
-    #
-
-    post = Post.objects.filter(private=False)
-    return render(request, 'home.html', {'posts': post})
+    return render(request, 'home.html', {'games': Game.objects.all(), 'apps': App.objects.all()})
 
 
 
-def edit(request, post_id):
-    if request.user.is_authenticated and request.user.is_editor:
-        post = Post.objects.get(id=post_id)
-        return render(request, 'edit.html', {'post': post})
+def edit_game(request, post_id):
+    if request.user.is_authenticated and request.user.is_publisher:
+        game = Game.objects.get(id=post_id)
+        return render(request, 'edit_game.html', {'game': game})
     
-
     return redirect('/')
 
+def edit_app(request, post_id):
+    if request.user.is_authenticated and request.user.is_publisher:
+        app = App.objects.get(id=post_id)
+        return render(request, 'edit_app.html', {'app': app})
+    
+    return redirect('/')
