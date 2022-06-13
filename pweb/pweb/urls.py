@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from news.views import test, home, edit_game, edit_app
+from news.views import test, home, edit_game, edit_app, add_game, add_app
 
 urlpatterns = [
     path('', home, name='home'),
@@ -25,6 +25,8 @@ urlpatterns = [
 
     path('test/', test, name='test'),
     path('game/<int:post_id>', edit_game),
-    path('app/<int:post_id>', edit_app)
+    path('app/<int:post_id>', edit_app),
+    path('add_game/', add_game, name='add_game'),
+    path('add_app/', add_app, name='add_app')
     
 ]

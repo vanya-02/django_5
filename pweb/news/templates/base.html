@@ -3,27 +3,59 @@
     <head>
         <meta charset="utf-8">
         <title>base</title>
-        <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     </head>
+
+    <style>
+        ul {
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          background-color: #333;
+        }
+        
+        li {
+          float: left;
+          border-right:1px solid #bbb;
+        }
+        
+        li:last-child {
+          border-right: none;
+        }
+        
+        li a {
+          display: block;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+        
+        li a:hover:not(.active) {
+          background-color: #111;
+        }
+        
+        .active {
+          background-color: #04AA6D;
+        }
+        </style>
+
     <body>
-        <nav class="navbar is-info">
-            <div class="navbar-brand">
-                <a href="/" class="navbar-item"><strong>Tootle Ltd. Store</strong></a>
-            </div>
-
+        
+        <ul>
+            <li><a class="active" href="/">Tootle Ltd. Store</a></li>
             {% if user.is_authenticated %}
-            <div class="navbar-brand">
-              <a href="{% url 'logout' %}" class="navbar-item"><i>Hi {{ user.username }}!</i></a>
-               </div>
+            <li><a><i>Hi {{ user.username }}!</i></a>
+            <li style="float:right"><a href="{% url 'logout' %}">Logout</a></li>
+
             {% else %}
-            <div class="navbar-brand">
-              <a href="{% url 'login' %}" class="navbar-item"><i>You are not logged in!</i></a>
-               </div>
+            <li><a><i>You are not logged in!</i></a></li>
 
+
+            <li style="float:right"><a href="{% url 'login' %}">Login</a></li>
             {% endif %}
+        </ul>
 
-        </nav>
         <section class="section">
             <div class="container">
                 {% block content %}
